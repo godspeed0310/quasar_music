@@ -28,6 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
+  eva_icons_flutter: ^3.0.2
   flutter:
     sdk: flutter
   flutter_svg: ^0.23.0+1
