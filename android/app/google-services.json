@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "293896450784",
+    "project_id": "quasarmusic-29d42",
+    "storage_bucket": "quasarmusic-29d42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293896450784:android:235c5061019829671a1685",
+        "android_client_info": {
+          "package_name": "io.fuse.quasar_music"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "293896450784-lu1voh9lvf3mrm0h8ccm0s6si36mnd5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.quasar_music",
+            "certificate_hash": "c19cba5f826eecbab40b9186204083a01840a971"
+          }
+        },
+        {
+          "client_id": "293896450784-s0fbdr94vm3308o12s9fosc78aqudtar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyZMOHfcX38Ozxjn-Dn9qO6X0NkRQqW-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "293896450784-s0fbdr94vm3308o12s9fosc78aqudtar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
