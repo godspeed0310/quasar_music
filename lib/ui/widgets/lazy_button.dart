@@ -16,6 +16,7 @@ class LazyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(6),
       child: Ink(
         height: 60,
         width: MediaQuery.of(context).size.width,
