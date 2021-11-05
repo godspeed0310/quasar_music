@@ -65,7 +65,7 @@ class AuthView extends StatelessWidget {
                     ),
                     LazyButton(
                       label: 'Sign Up with Email ID',
-                      onTap: () {},
+                      onTap: () => model.signupUser(),
                       busy: model.busy,
                     ),
                     const SizedBox(
@@ -111,7 +111,8 @@ class AuthView extends StatelessWidget {
                         text: 'Already have an account? ',
                         children: [
                           TextSpan(
-                            recognizer: TapGestureRecognizer()..onTap = () {},
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => model.signInUser(),
                             text: 'Sign In',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
