@@ -30,8 +30,8 @@ dependencies:
   cloud_firestore: ^3.0.0
   cupertino_icons: ^1.0.2
   eva_icons_flutter: ^3.0.2
-  firebase: ^9.0.2
   firebase_auth: ^3.1.5
+  firebase_core: ^1.9.0
   flutter:
     sdk: flutter
   flutter_svg: ^0.23.0+1
