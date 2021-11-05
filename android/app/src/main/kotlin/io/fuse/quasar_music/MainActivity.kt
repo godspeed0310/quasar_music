@@ -1,4 +1,4 @@
-package com.example.quasar_music
+package io.fuse.quasar_music
 
 import io.flutter.embedding.android.FlutterActivity
 
