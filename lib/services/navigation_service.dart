@@ -26,4 +26,8 @@ class NavigationService {
   Future<dynamic> pushAndReplace(String routeName, {dynamic arguments}) {
     return _navigationKey.currentState!.pushReplacementNamed(routeName);
   }
+
+  Future<dynamic> pushAndReplace(String routeName, {dynamic arguments}) {
+    return _navigationKey.currentState!.pushReplacementNamed(routeName);
+  }
 }
