@@ -26,7 +26,7 @@ class SignInView extends StatelessWidget {
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               elevation: 0,
               leading: GestureDetector(
-                onTap: () {},
+                onTap: () => model.popPage(),
                 child: const Icon(
                   Icons.close,
                 ),
@@ -128,7 +128,8 @@ class SignInView extends StatelessWidget {
                           text: 'Don\'t have an account? ',
                           children: [
                             TextSpan(
-                              recognizer: TapGestureRecognizer()..onTap = () {},
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => model.navigateToSignup(),
                               text: 'Sign Up',
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
