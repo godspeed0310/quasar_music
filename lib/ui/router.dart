@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quasar_music/constants/route_names.dart';
+import 'package:quasar_music/ui/views/home_view.dart';
 
 import 'views/auth_view.dart';
 import 'views/signin_view.dart';
@@ -21,6 +22,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name,
         viewtoShow: AuthView(),
+      );
+    case homeViewRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewtoShow: HomeView(),
       );
     default:
       return MaterialPageRoute(
