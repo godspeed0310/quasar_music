@@ -12,6 +12,7 @@ class StartupView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<StartupViewModel>.reactive(
       viewModelBuilder: () => StartupViewModel(),
+      onModelReady: (model) => model.handleStartUpLogic(),
       builder: (context, model, child) {
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: systemUiOverlayStyle,
