@@ -9,7 +9,7 @@ class HomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double soundSize = 9;
-    const Color unrecordedSoundColor = Colors.white;
+    const Color unrecordedSoundColor = lightgrey;
     const List<double> soundLevels = [
       30,
       50,
@@ -71,7 +71,7 @@ class HomePageView extends StatelessWidget {
                 soundData: soundLevels,
                 width: soundSize,
                 unrecordedSoundColor: unrecordedSoundColor,
-                recordedSoundColor: primaryColor,
+                recordedSoundColor: primaryColorLight,
               ),
               const SizedBox(
                 height: 70,
