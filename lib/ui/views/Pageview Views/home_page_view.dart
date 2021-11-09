@@ -1,12 +1,36 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:quasar_music/ui/shared/app_colors.dart';
+import 'package:quasar_music/ui/widgets/sound_graph.dart';
 
 class HomePageView extends StatelessWidget {
   const HomePageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    const double soundSize = 9;
+    const Color unrecordedSoundColor = Colors.white;
+    const List<double> soundLevels = [
+      30,
+      50,
+      70,
+      50,
+      30,
+      60,
+      100,
+      60,
+      30,
+      30,
+      60,
+      100,
+      60,
+      30,
+      60,
+      100,
+      60,
+      30,
+    ];
+
     return CustomPaint(
       painter: BackgroundPainter(),
       child: Container(
@@ -43,6 +67,15 @@ class HomePageView extends StatelessWidget {
                 ],
               ),
               const Spacer(),
+              const SoundGraph(
+                soundData: soundLevels,
+                width: soundSize,
+                unrecordedSoundColor: unrecordedSoundColor,
+                recordedSoundColor: primaryColor,
+              ),
+              const SizedBox(
+                height: 70,
+              ),
               InkWell(
                 onTap: () {},
                 borderRadius: BorderRadius.circular(1000),
@@ -108,14 +141,14 @@ class BackgroundPainter extends CustomPainter {
     canvas.drawCircle(
       const Offset(0, 0),
       100,
-      Paint()..color = lightgrey.withOpacity(0.3),
+      Paint()..color = lightgrey.withOpacity(0.4),
     );
     canvas.drawCircle(
       const Offset(0, 0),
       190,
       Paint()
         ..strokeWidth = 1
-        ..color = lightgrey.withOpacity(0.3)
+        ..color = lightgrey.withOpacity(0.4)
         ..style = PaintingStyle.stroke,
     );
     canvas.drawCircle(
@@ -123,7 +156,7 @@ class BackgroundPainter extends CustomPainter {
       240,
       Paint()
         ..strokeWidth = 1
-        ..color = lightgrey.withOpacity(0.3)
+        ..color = lightgrey.withOpacity(0.4)
         ..style = PaintingStyle.stroke,
     );
     canvas.drawCircle(
@@ -131,7 +164,7 @@ class BackgroundPainter extends CustomPainter {
       290,
       Paint()
         ..strokeWidth = 1
-        ..color = lightgrey.withOpacity(0.3)
+        ..color = lightgrey.withOpacity(0.4)
         ..style = PaintingStyle.stroke,
     );
     canvas.drawCircle(
@@ -139,7 +172,7 @@ class BackgroundPainter extends CustomPainter {
       340,
       Paint()
         ..strokeWidth = 1
-        ..color = lightgrey.withOpacity(0.3)
+        ..color = lightgrey.withOpacity(0.4)
         ..style = PaintingStyle.stroke,
     );
   }
