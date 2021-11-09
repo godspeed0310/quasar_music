@@ -21,34 +21,47 @@ class SoundGraph extends StatelessWidget {
       height: 100,
       child: Align(
         alignment: Alignment.center,
-        child: ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemBuilder: (BuildContext context, index) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: width,
-                  height: soundData[index],
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: unrecordedSoundColor,
-                  ),
-                ),
-              ],
+        child: TweenAnimationBuilder(
+          tween: Tween<double>(begin: 0, end: 1),
+          duration: const Duration(seconds: 10),
+          builder: (context, double value, child) {
+            return ShaderMask(
+              shaderCallback: (rect) {
+                return LinearGradient(
+                    colors: [recordedSoundColor, unrecordedSoundColor],
+                    stops: [value, value]).createShader(rect);
+              },
+              child: ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: width,
+                        height: soundData[index],
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: unrecordedSoundColor,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                separatorBuilder: (BuildContext context, index) {
+                  return index == soundData.length - 1
+                      ? const SizedBox()
+                      : SizedBox(
+                          width: width,
+                        );
+                },
+                itemCount: soundData.length,
+              ),
             );
           },
-          separatorBuilder: (BuildContext context, index) {
-            return index == soundData.length - 1
-                ? const SizedBox()
-                : SizedBox(
-                    width: width,
-                  );
-          },
-          itemCount: soundData.length,
         ),
       ),
     );
