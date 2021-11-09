@@ -2,6 +2,9 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quasar_music/ui/shared/app_colors.dart';
+import 'package:quasar_music/ui/views/Pageview%20Views/discover_page_view.dart';
+import 'package:quasar_music/ui/views/Pageview%20Views/home_page_view.dart';
+import 'package:quasar_music/ui/views/Pageview%20Views/playlist_page_view.dart';
 import 'package:quasar_music/viewmodels/home_view_model.dart';
 import 'package:stacked/stacked.dart';
 
@@ -24,31 +27,10 @@ class HomeView extends StatelessWidget {
                 },
                 controller: _pageController,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  Container(
-                    child: const Center(
-                      child: Text(
-                        'Home',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: const Center(
-                      child: Text(
-                        'My Playlist',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: const Center(
-                      child: Text(
-                        'Discover',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                children: const [
+                  HomePageView(),
+                  PlaylistPageView(),
+                  DiscoverPageView(),
                 ]),
             bottomNavigationBar: BottomNavigationBar(
               onTap: (index) {
