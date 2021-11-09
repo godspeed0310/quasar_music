@@ -47,9 +47,16 @@ class HomePageView extends StatelessWidget {
               child: Ink(
                 height: 80,
                 width: 80,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: primaryGradient,
+                  boxShadow: [
+                    BoxShadow(
+                      color: primaryColor.withOpacity(0.5),
+                      offset: const Offset(8, 8),
+                      blurRadius: 20,
+                    ),
+                  ],
                 ),
                 child: const Center(
                   child: Icon(
