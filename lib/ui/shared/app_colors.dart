@@ -12,3 +12,8 @@ const SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
   systemNavigationBarColor: scaffoldBackgroundColor,
   systemNavigationBarIconBrightness: Brightness.light,
 );
+const LinearGradient primaryGradient = LinearGradient(
+  colors: [primaryColorLight, primaryColor],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
