@@ -21,6 +21,7 @@ class SignupView extends StatelessWidget {
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: systemUiOverlayStyle,
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               elevation: 0,
@@ -112,7 +113,10 @@ class SignupView extends StatelessWidget {
                   ),
                   LazyButton(
                     label: 'Continue',
-                    onTap: () {},
+                    onTap: () => model.signupUser(
+                      email: _emailController.text.trim(),
+                      password: _passwordController.text.trim(),
+                    ),
                     busy: model.busy,
                   ),
                   const SizedBox(
