@@ -33,13 +33,13 @@ class SignupViewModel extends BaseModel {
       } else {
         await _dialogService.showDialog(
           title: 'Couldn\'t Sign In',
-          description: 'General Signin error, please try again later.',
+          description: 'General Signup error, please try again later.',
         );
         setBusy(false);
       }
     } else {
       await _dialogService.showDialog(
-        title: 'Couldn\'t Sign In',
+        title: 'Couldn\'t Sign Up',
         description: result,
       );
       setBusy(false);
