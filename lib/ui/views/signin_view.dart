@@ -114,8 +114,8 @@ class SignInView extends StatelessWidget {
                   LazyButton(
                     label: 'Continue',
                     onTap: () => model.loginUser(
-                      email: _emailController.text,
-                      password: _passwordConroller.text,
+                      email: _emailController.text.trim(),
+                      password: _passwordConroller.text.trim(),
                     ),
                     busy: model.busy,
                   ),
