@@ -1,36 +1,12 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:quasar_music/ui/shared/app_colors.dart';
-import 'package:quasar_music/ui/widgets/sound_graph.dart';
 
 class HomePageView extends StatelessWidget {
   const HomePageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const double soundSize = 9;
-    const Color unrecordedSoundColor = lightgrey;
-    const List<double> soundLevels = [
-      30,
-      50,
-      70,
-      50,
-      30,
-      60,
-      100,
-      60,
-      30,
-      30,
-      60,
-      100,
-      60,
-      30,
-      60,
-      100,
-      60,
-      30,
-    ];
-
     return CustomPaint(
       painter: BackgroundPainter(),
       child: Container(
@@ -67,12 +43,6 @@ class HomePageView extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              const SoundGraph(
-                soundData: soundLevels,
-                width: soundSize,
-                unrecordedSoundColor: unrecordedSoundColor,
-                recordedSoundColor: primaryColorLight,
-              ),
               const SizedBox(
                 height: 70,
               ),
