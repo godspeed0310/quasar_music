@@ -36,6 +36,8 @@ dependencies:
     sdk: flutter
   flutter_svg: ^0.23.0+1
   get_it: ^7.2.0
+  spotify: ^0.6.0
+  spotify_sdk: ^2.1.0
   stacked: ^2.2.7
 
 dev_dependencies:
