@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quasar_music/data/data.dart';
 import 'package:quasar_music/ui/widgets/music_widget.dart';
 
 class DiscoverPageView extends StatelessWidget {
@@ -30,7 +31,7 @@ class DiscoverPageView extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 60,
+              height: 40,
             ),
             const Align(
               alignment: Alignment.topCenter,
@@ -49,15 +50,17 @@ class DiscoverPageView extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 250,
-              child: ListView(
+              child: ListView.builder(
+                itemCount: topfivesongs.length,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                children: const [
-                  MusicWidget(),
-                  MusicWidget(),
-                  MusicWidget(),
-                  MusicWidget(),
-                ],
+                itemBuilder: (BuildContext context, int index) {
+                  return MusicWidget(
+                    imgUri: topfivesongs[index].imgUri,
+                    title: topfivesongs[index].title,
+                    artists: topfivesongs[index].artists,
+                  );
+                },
               ),
             ),
             const Align(
@@ -74,33 +77,19 @@ class DiscoverPageView extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            GridView.count(
+            GridView.builder(
               shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              childAspectRatio: 0.75,
-              crossAxisCount: 2,
-              children: const [
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-                MusicWidget(),
-              ],
+              physics: const BouncingScrollPhysics(),
+              itemCount: songs.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, childAspectRatio: 0.7),
+              itemBuilder: (BuildContext context, int index) {
+                return MusicWidget(
+                  imgUri: songs[index].imgUri,
+                  artists: songs[index].artists,
+                  title: songs[index].title,
+                );
+              },
             )
           ],
         ),
