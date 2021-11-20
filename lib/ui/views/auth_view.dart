@@ -52,7 +52,7 @@ class AuthView extends StatelessWidget {
                     const Opacity(
                       opacity: 0.5,
                       child: Text(
-                        'Manage your expenses.\nSeamlessly.',
+                        'Recognising your own music\nhas never been easier.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
