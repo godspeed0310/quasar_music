@@ -38,7 +38,7 @@ class AuthView extends StatelessWidget {
                       height: 30,
                     ),
                     const Text(
-                      'Get your Money\nUnder Control',
+                      'Music recognition for everyone.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
