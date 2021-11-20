@@ -24,7 +24,7 @@ class HomePageView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                    'Hum\n your song!',
+                    'Hum\nyour song!',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 40,
