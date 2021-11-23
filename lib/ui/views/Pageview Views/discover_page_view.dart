@@ -1,98 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:quasar_music/data/data.dart';
-import 'package:quasar_music/ui/widgets/music_widget.dart';
+import 'package:quasar_music/services/song_service.dart';
+import 'package:quasar_music/ui/shared/app_colors.dart';
+import 'package:quasar_music/ui/widgets/carousel_album_widget.dart';
+import 'package:quasar_music/ui/widgets/carousel_song_widget.dart';
+import 'package:quasar_music/viewmodels/discover_model_view.dart';
 
-class DiscoverPageView extends StatelessWidget {
+class DiscoverPageView extends StatefulWidget {
   const DiscoverPageView({Key? key}) : super(key: key);
 
   @override
+  State<DiscoverPageView> createState() => _DiscoverPageViewState();
+}
+
+class _DiscoverPageViewState extends State<DiscoverPageView> {
+  late Future<DiscoverData> _discoverData;
+  final SongService songService = SongService.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _discoverData = DiscoverModelView().fetchDiscoverList();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 24,
-        right: 24,
-        top: 100,
-      ),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          children: [
-            const Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                'New releases',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
+    return Container(
+      child: FutureBuilder<DiscoverData>(
+        future: _discoverData,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final List<Widget> list = [];
+
+            final albumChart = snapshot.data!.chart!.albumChart;
+            final songChart = snapshot.data!.chart!.songChart;
+
+            if (songChart != null) {
+              list.add(
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            const Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                'The best new releases',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              );
+              list.add(
+                CarouselSongWidget(
+                  title: 'Top Songs',
+                  songs: songChart.songs,
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 250,
-              child: ListView.builder(
-                itemCount: topfivesongs.length,
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return MusicWidget(
-                    imgUri: topfivesongs[index].imgUri,
-                    title: topfivesongs[index].title,
-                    artists: topfivesongs[index].artists,
-                  );
-                },
-              ),
-            ),
-            const Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                'New albums & singles',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              );
+              list.add(
+                const SizedBox(height: 10),
+              );
+              list.add(
+                CarouselAlbumWidget(
+                  title: 'New albums & singles',
+                  albums: albumChart!.albums!,
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            GridView.builder(
-              shrinkWrap: true,
+              );
+            }
+            return ListView(
+              children: list,
               physics: const BouncingScrollPhysics(),
-              itemCount: songs.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 0.7),
-              itemBuilder: (BuildContext context, int index) {
-                return MusicWidget(
-                  imgUri: songs[index].imgUri,
-                  artists: songs[index].artists,
-                  title: songs[index].title,
-                );
-              },
-            )
-          ],
-        ),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                '${snapshot.error}',
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                primaryColor,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
