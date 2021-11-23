@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:quasar_music/services/song_service.dart';
 import 'package:quasar_music/ui/shared/app_colors.dart';
@@ -25,61 +27,81 @@ class _DiscoverPageViewState extends State<DiscoverPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FutureBuilder<DiscoverData>(
-        future: _discoverData,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final List<Widget> list = [];
+    return Stack(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 100,
+          color: primaryColor,
+        ),
+        BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaY: 100,
+            sigmaX: 10,
+          ),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 100,
+            color: Colors.transparent,
+          ),
+        ),
+        Container(
+          child: FutureBuilder<DiscoverData>(
+            future: _discoverData,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final List<Widget> list = [];
 
-            final albumChart = snapshot.data!.chart!.albumChart;
-            final songChart = snapshot.data!.chart!.songChart;
+                final albumChart = snapshot.data!.chart!.albumChart;
+                final songChart = snapshot.data!.chart!.songChart;
 
-            if (songChart != null) {
-              list.add(
-                const SizedBox(
-                  height: 20,
+                if (songChart != null) {
+                  list.add(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  );
+                  list.add(
+                    CarouselSongWidget(
+                      title: 'Top Songs',
+                      songs: songChart.songs,
+                    ),
+                  );
+                  list.add(
+                    const SizedBox(height: 10),
+                  );
+                  list.add(
+                    CarouselAlbumWidget(
+                      title: 'New albums & singles',
+                      albums: albumChart!.albums!,
+                    ),
+                  );
+                }
+                return ListView(
+                  children: list,
+                  physics: const BouncingScrollPhysics(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    '${snapshot.error}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    primaryColor,
+                  ),
                 ),
               );
-              list.add(
-                CarouselSongWidget(
-                  title: 'Top Songs',
-                  songs: songChart.songs,
-                ),
-              );
-              list.add(
-                const SizedBox(height: 10),
-              );
-              list.add(
-                CarouselAlbumWidget(
-                  title: 'New albums & singles',
-                  albums: albumChart!.albums!,
-                ),
-              );
-            }
-            return ListView(
-              children: list,
-              physics: const BouncingScrollPhysics(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                '${snapshot.error}',
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            );
-          }
-          return const Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(
-                primaryColor,
-              ),
-            ),
-          );
-        },
-      ),
+            },
+          ),
+        ),
+      ],
     );
   }
 }
