@@ -11,7 +11,7 @@ class SongService {
 
   static final SongService instance = SongService._privateConstructor();
   static const BASE_URL = 'https://api.deezer.com';
-  static const _SONG_URL = '$BASE_URL/songs';
+  static const _SONG_URL = '$BASE_URL/track';
   static const _ALBUM_URL = '$BASE_URL/album';
   static const _CHART_URL = '$BASE_URL/chart';
   static const _ARTIST_URL = '$BASE_URL/artist';

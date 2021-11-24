@@ -13,7 +13,7 @@ class HomeModelView extends BaseModel {
   final SongService songService = SongService.instance;
   late SongModel currentSong;
   bool isRecognizing = false;
-  bool success = false;
+  late bool success;
 
   Future<void> initAcr() async {
     try {
@@ -22,18 +22,20 @@ class HomeModelView extends BaseModel {
           host: 'identify-eu-west-1.acrcloud.com',
           accessKey: '03a75594ca449622d3be6e49031dccc4',
           accessSecret: 'tnfP2xafhlD6XoOrxWku8d9gsNpD005F284Ey51r',
+          setLog: false,
         )
         ..songModelStream.listen(searchSong);
+      success = false;
     } catch (e) {
       print(e.toString());
     }
   }
 
   void searchSong(sm.SongModel model) async {
-    print(model);
     final metaData = model.metadata;
     if (metaData != null && metaData.music!.isNotEmpty) {
-      final trackId = metaData.music?[0].externalMetadata?.deezer?.track?.id;
+      final trackId = metaData.music![0].externalMetadata!.deezer!.track!.id;
+      print('On recog init $success');
       try {
         final result = await songService.fetchSongById(trackId!);
         currentSong = result;
