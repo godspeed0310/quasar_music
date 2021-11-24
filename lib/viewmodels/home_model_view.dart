@@ -47,6 +47,11 @@ class HomeModelView extends BaseModel {
         notifyListeners();
       }
     }
+
+    stopRecognising();
+    isRecognizing = false;
+    success = true;
+    notifyListeners();
   }
 
   Future<void> startRecognising() async {
@@ -69,5 +74,10 @@ class HomeModelView extends BaseModel {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  updateSuccessState(bool value) {
+    success = value;
+    notifyListeners();
   }
 }

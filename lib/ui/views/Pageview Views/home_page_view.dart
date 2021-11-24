@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -108,64 +109,47 @@ Widget recognizeView(HomeModelView model) {
               ],
             ),
             const Spacer(),
-            const SizedBox(
+            SizedBox(
               height: 70,
             ),
-            InkWell(
-              onTap: () {
-                model.isRecognizing
-                    ? model.stopRecognising()
-                    : model.startRecognising();
-              },
-              borderRadius: BorderRadius.circular(1000),
-              child: Ink(
-                height: 80,
-                width: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: primaryGradient,
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryColor.withOpacity(0.5),
-                      offset: const Offset(8, 8),
-                      blurRadius: 20,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Icon(
-                    model.isRecognizing ? EvaIcons.close : EvaIcons.micOutline,
-                    color: Colors.white,
-                    size: 30,
+            AvatarGlow(
+              endRadius: 100,
+              glowColor: primaryColor.withOpacity(0.4),
+              animate: model.isRecognizing,
+              child: InkWell(
+                onTap: () {
+                  model.isRecognizing
+                      ? model.stopRecognising()
+                      : model.startRecognising();
+                },
+                borderRadius: BorderRadius.circular(1000),
+                child: Ink(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: primaryGradient,
+                    boxShadow: [
+                      BoxShadow(
+                        color: primaryColor.withOpacity(0.5),
+                        offset: const Offset(8, 8),
+                        blurRadius: 20,
+                      ),
+                    ],
                   ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InkWell(
-              onTap: () {},
-              borderRadius: BorderRadius.circular(12),
-              child: Ink(
-                width: 150,
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Center(
-                  child: Text(
-                    'Reset',
-                    style: TextStyle(
+                  child: Center(
+                    child: Icon(
+                      model.isRecognizing
+                          ? EvaIcons.close
+                          : EvaIcons.micOutline,
                       color: Colors.white,
+                      size: 30,
                     ),
                   ),
                 ),
               ),
             ),
+            const Spacer(),
           ],
         ),
       ),
@@ -215,6 +199,32 @@ Widget resultView(HomeModelView model, context) {
               color: Colors.white,
               fontSize: 20,
             ),
+          ),
+          const Spacer(),
+          TextButton(
+            style: ButtonStyle(
+              fixedSize: MaterialStateProperty.all(
+                const Size(
+                  200,
+                  50,
+                ),
+              ),
+              side: MaterialStateProperty.all(
+                const BorderSide(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            onPressed: () {
+              model.updateSuccessState(false);
+            },
+            child: const Text(
+              'Recognize Another Song',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          const SizedBox(
+            height: 40,
           ),
         ],
       ),
