@@ -187,6 +187,7 @@ Widget resultView(HomeModelView model, context) {
           ),
           Text(
             model.currentSong.title!,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
