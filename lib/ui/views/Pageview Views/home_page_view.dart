@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -109,7 +110,7 @@ Widget recognizeView(HomeModelView model) {
               ],
             ),
             const Spacer(),
-            SizedBox(
+            const SizedBox(
               height: 70,
             ),
             AvatarGlow(
@@ -158,6 +159,8 @@ Widget recognizeView(HomeModelView model) {
 }
 
 Widget resultView(HomeModelView model, context) {
+  var musicPlayer = AudioPlayer();
+
   return SizedBox.expand(
     child: Container(
       child: Column(
@@ -199,6 +202,45 @@ Widget resultView(HomeModelView model, context) {
               color: Colors.white,
               fontSize: 20,
             ),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  musicPlayer.play(model.currentSong.previewUrl!);
+                },
+                child: const Icon(
+                  Icons.play_arrow,
+                  size: 30,
+                  color: Colors.white,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  musicPlayer.pause();
+                },
+                child: const Icon(
+                  Icons.pause,
+                  size: 30,
+                  color: Colors.white,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  musicPlayer.stop();
+                },
+                child: const Icon(
+                  Icons.stop,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              )
+            ],
           ),
           const Spacer(),
           TextButton(
