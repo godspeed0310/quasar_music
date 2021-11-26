@@ -7,6 +7,7 @@ import 'base_model.dart';
 class HomeModelView extends BaseModel {
   HomeModelView() {
     initAcr();
+    isLiked = false;
   }
 
   final sm.AcrCloudSdk acr = sm.AcrCloudSdk();
@@ -14,6 +15,7 @@ class HomeModelView extends BaseModel {
   late SongModel currentSong;
   bool isRecognizing = false;
   late bool success;
+  late bool isLiked;
 
   Future<void> initAcr() async {
     try {
@@ -78,6 +80,11 @@ class HomeModelView extends BaseModel {
 
   updateSuccessState(bool value) {
     success = value;
+    notifyListeners();
+  }
+
+  toggleLike() {
+    isLiked = !isLiked;
     notifyListeners();
   }
 }

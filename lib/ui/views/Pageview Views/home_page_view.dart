@@ -176,7 +176,7 @@ Widget resultView(HomeModelView model, context) {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: CachedNetworkImageProvider(
-                  model.currentSong.artworkUrl(256),
+                  model.currentSong.artworkUrl(1000),
                 ),
                 fit: BoxFit.cover,
               ),
@@ -240,7 +240,15 @@ Widget resultView(HomeModelView model, context) {
                   color: Colors.white,
                   size: 30,
                 ),
-              )
+              ),
+              IconButton(
+                onPressed: () => model.toggleLike(),
+                icon: Icon(
+                  model.isLiked ? Icons.favorite : Icons.favorite_outline,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              ),
             ],
           ),
           const Spacer(),
