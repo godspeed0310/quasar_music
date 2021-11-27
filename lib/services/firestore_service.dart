@@ -14,4 +14,13 @@ class FirestoreService {
       return e.message;
     }
   }
+
+  Future getUser(String uid) async {
+    try {
+      var userData = await userRef.doc(uid).get();
+      return UserModel.fromData(userData.data() as Map<String, dynamic>);
+    } on FirebaseException catch (e) {
+      return e.message;
+    }
+  }
 }
