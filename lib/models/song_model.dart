@@ -33,4 +33,17 @@ class SongModel {
   String artworkUrl(int size) {
     return this.artworkRawUrl!.replaceAll('{w}x{h}', "${size}x$size");
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'type': type,
+      'link': link,
+      'title': title,
+      'previewUrl': previewUrl,
+      'artworkRawUrl': artworkRawUrl,
+      'artistName': artistName,
+      'albumName': albumName,
+    };
+  }
 }

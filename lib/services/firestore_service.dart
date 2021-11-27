@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:quasar_music/models/song_model.dart';
 import 'package:quasar_music/models/user_model.dart';
 
 class FirestoreService {
   final CollectionReference userRef =
       FirebaseFirestore.instance.collection('users');
+  final CollectionReference favRef =
+      FirebaseFirestore.instance.collection('favourites');
 
   Future createUser(UserModel user) async {
     try {
@@ -19,6 +22,22 @@ class FirestoreService {
     try {
       var userData = await userRef.doc(uid).get();
       return UserModel.fromData(userData.data() as Map<String, dynamic>);
+    } on FirebaseException catch (e) {
+      return e.message;
+    }
+  }
+
+  Future addToFav(SongModel songModel) async {
+    try {
+      return await favRef.doc(songModel.id.toString()).set(songModel.toMap());
+    } on FirebaseException catch (e) {
+      return e.message;
+    }
+  }
+
+  Future removeFromFav(SongModel songModel) async {
+    try {
+      return await favRef.doc(songModel.id.toString()).delete();
     } on FirebaseException catch (e) {
       return e.message;
     }
