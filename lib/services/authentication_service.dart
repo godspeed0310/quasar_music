@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quasar_music/locator.dart';
+import 'package:quasar_music/models/user_model.dart';
+import 'package:quasar_music/services/firestore_service.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirestoreService _firestoreService = locator<FirestoreService>();
 
   Future signInWithEmailAndPassword({
     required String email,
@@ -12,6 +16,7 @@ class AuthenticationService {
         email: email,
         password: password,
       );
+
       return authResult.user != null;
     } on FirebaseAuthException catch (e) {
       return e.message;
@@ -27,6 +32,15 @@ class AuthenticationService {
         email: email,
         password: password,
       );
+
+      //Create user in firestore
+      await _firestoreService.createUser(
+        UserModel(
+          uid: authResult.user!.uid,
+          email: email,
+        ),
+      );
+
       return authResult.user != null;
     } on FirebaseAuthException catch (e) {
       return e.message;
