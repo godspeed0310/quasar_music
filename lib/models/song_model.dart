@@ -1,12 +1,12 @@
 class SongModel {
-  final int? id;
-  final String? type;
-  final String? link;
-  final String? title;
-  final String? previewUrl;
-  final String? artworkRawUrl;
-  final String? artistName;
-  final String? albumName;
+  int? id;
+  String? type;
+  String? link;
+  String? title;
+  String? previewUrl;
+  String? artworkRawUrl;
+  String? artistName;
+  String? albumName;
 
   SongModel(
       {this.id,
@@ -45,5 +45,16 @@ class SongModel {
       'artistName': artistName,
       'albumName': albumName,
     };
+  }
+
+  SongModel.fromMap(Map<String, dynamic> data) {
+    id = data['id'];
+    type = data['type'];
+    link = data['link'];
+    title = data['title'];
+    previewUrl = data['previewUrl'];
+    artworkRawUrl = data['artworkRawUrl'];
+    artistName = data['artistName'];
+    albumName = data['albumName'];
   }
 }
