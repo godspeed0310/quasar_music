@@ -1,6 +1,7 @@
 import 'package:acr_cloud_sdk/acr_cloud_sdk.dart' as sm;
 import 'package:quasar_music/locator.dart';
 import 'package:quasar_music/models/song_model.dart';
+import 'package:quasar_music/services/authentication_service.dart';
 import 'package:quasar_music/services/firestore_service.dart';
 import 'package:quasar_music/services/song_service.dart';
 
@@ -19,6 +20,7 @@ class HomeModelView extends BaseModel {
   late bool success;
   late bool isLiked;
   final FirestoreService _firestoreService = locator<FirestoreService>();
+  final AuthenticationService _authService = locator<AuthenticationService>();
 
   Future<void> initAcr() async {
     try {
@@ -82,11 +84,12 @@ class HomeModelView extends BaseModel {
   }
 
   addToFavourites() async {
-    await _firestoreService.addToFav(currentSong);
+    await _firestoreService.addToFav(currentSong, _authService.currentUser.uid);
   }
 
   removeFromFavourites() async {
-    await _firestoreService.removeFromFav(currentSong);
+    await _firestoreService.removeFromFav(
+        currentSong, _authService.currentUser.uid);
   }
 
   updateSuccessState(bool value) {

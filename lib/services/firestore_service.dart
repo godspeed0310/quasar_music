@@ -27,17 +27,33 @@ class FirestoreService {
     }
   }
 
-  Future addToFav(SongModel songModel) async {
+  Future addToFav(SongModel songModel, String uid) async {
     try {
-      return await favRef.doc(songModel.id.toString()).set(songModel.toMap());
+      return await userRef.doc(uid).update(
+        {
+          'favourites': FieldValue.arrayUnion(
+            [
+              songModel.toMap(),
+            ],
+          ),
+        },
+      );
     } on FirebaseException catch (e) {
       return e.message;
     }
   }
 
-  Future removeFromFav(SongModel songModel) async {
+  Future removeFromFav(SongModel songModel, String uid) async {
     try {
-      return await favRef.doc(songModel.id.toString()).delete();
+      return await userRef.doc(uid).update(
+        {
+          'favourites': FieldValue.arrayRemove(
+            [
+              songModel.toMap(),
+            ],
+          ),
+        },
+      );
     } on FirebaseException catch (e) {
       return e.message;
     }
