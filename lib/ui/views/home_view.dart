@@ -27,10 +27,10 @@ class HomeView extends StatelessWidget {
                 },
                 controller: _pageController,
                 physics: const NeverScrollableScrollPhysics(),
-                children: const [
-                  HomePageView(),
+                children: [
+                  const HomePageView(),
                   PlaylistPageView(),
-                  DiscoverPageView(),
+                  const DiscoverPageView(),
                 ]),
             bottomNavigationBar: BottomNavigationBar(
               onTap: (index) {
