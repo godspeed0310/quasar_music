@@ -137,6 +137,55 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
                             ),
                           ),
                         ),
+                        SliverToBoxAdapter(
+                          child: StreamBuilder(
+                            stream: _firestoreService.userRef
+                                .doc(_authenticationService.currentUser.uid)
+                                .collection('playlists')
+                                .snapshots(),
+                            builder: (context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor:
+                                        AlwaysStoppedAnimation(primaryColor),
+                                  ),
+                                );
+                              } else if (snapshot.hasData) {
+                                var playlistDoc = snapshot.data;
+
+                                return ListView(
+                                  shrinkWrap: true,
+                                  children: playlistDoc!.docs.map((document) {
+                                    return ListTile(
+                                      title: Text(
+                                        document['name'],
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+                              } else if (snapshot.hasError) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor:
+                                        AlwaysStoppedAnimation(primaryColor),
+                                  ),
+                                );
+                              } else {
+                                return const Center(
+                                  child: Text('No data found'),
+                                );
+                              }
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),
