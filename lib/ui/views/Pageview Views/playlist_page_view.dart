@@ -6,9 +6,11 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quasar_music/locator.dart';
+import 'package:quasar_music/models/song_model.dart';
 import 'package:quasar_music/services/authentication_service.dart';
 import 'package:quasar_music/services/firestore_service.dart';
 import 'package:quasar_music/ui/shared/app_colors.dart';
+import 'package:quasar_music/ui/views/song_view.dart';
 
 class PlaylistPageView extends StatefulWidget {
   @override
@@ -81,6 +83,18 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
                       itemCount: songs != null ? songs.length : 0,
                       itemBuilder: (_, int index) {
                         return ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => SongView(
+                                  song: SongModel.fromMap(
+                                    songs[index],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                           leading: Container(
                             height: 50,
                             width: 50,
