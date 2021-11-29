@@ -1,4 +1,5 @@
 import 'package:acr_cloud_sdk/acr_cloud_sdk.dart' as sm;
+import 'package:flutter/cupertino.dart';
 import 'package:quasar_music/locator.dart';
 import 'package:quasar_music/models/song_model.dart';
 import 'package:quasar_music/services/authentication_service.dart';
@@ -35,6 +36,16 @@ class HomeModelView extends BaseModel {
       success = false;
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future<void> disposeAcr() async {
+    try {
+      acr.stop();
+    } catch (e) {
+      print(
+        e.toString(),
+      );
     }
   }
 
