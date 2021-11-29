@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
         primaryColor: primaryColor,
         primaryColorDark: primaryColorDark,
         scaffoldBackgroundColor: scaffoldBackgroundColor,
-        brightness: Brightness.dark,
         textTheme:
             Theme.of(context).textTheme.apply(fontFamily: 'SFProDisplay'),
         colorScheme: const ColorScheme.dark().copyWith(
