@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:acr_cloud_sdk/acr_cloud_sdk.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -11,6 +10,7 @@ import 'package:quasar_music/services/authentication_service.dart';
 import 'package:quasar_music/services/firestore_service.dart';
 import 'package:quasar_music/ui/shared/app_colors.dart';
 import 'package:quasar_music/ui/views/song_view.dart';
+import 'package:quasar_music/models/song_model.dart' as sm;
 
 class PlaylistPageView extends StatefulWidget {
   @override
@@ -22,6 +22,12 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
       locator<AuthenticationService>();
 
   final FirestoreService _firestoreService = locator<FirestoreService>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,41 +61,35 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
           var songs = (songDoc as Map)['favourites'];
 
           return songs.length > 0
-              ? SafeArea(
-                  child: Scaffold(
-                    body: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: const Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Your favourites',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
-                                ),
+              ? Scaffold(
+                  body: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: CustomScrollView(
+                      slivers: [
+                        const SliverPadding(
+                          padding: EdgeInsets.only(
+                              top: 70, bottom: 20, left: 12, right: 12),
+                          sliver: SliverToBoxAdapter(
+                            child: Text(
+                              'Your favourites',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
                               ),
                             ),
                           ),
                         ),
-                        Expanded(
-                          flex: 14,
-                          child: ListView.builder(
-                            itemCount: songs != null ? songs.length : 0,
-                            itemBuilder: (_, int index) {
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (_, int index) {
                               return ListTile(
                                 onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => SongView(
-                                        song: SongModel.fromMap(
+                                        song: sm.SongModel.fromMap(
                                           songs[index],
                                         ),
                                       ),
@@ -120,53 +120,68 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
                                 ),
                               );
                             },
+                            childCount: songs.length,
+                          ),
+                        ),
+                        const SliverPadding(
+                          padding:
+                              EdgeInsets.only(top: 30, left: 12, right: 12),
+                          sliver: SliverToBoxAdapter(
+                            child: Text(
+                              'Your playlists',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                              ),
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    floatingActionButton: FloatingActionButton(
-                      backgroundColor: primaryColor,
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('Create a new playlist'),
-                            content: TextField(
-                              controller: inputController,
-                              decoration: const InputDecoration(
-                                hintText: 'Name your playlist',
-                              ),
-                              style: const TextStyle(color: Colors.white),
+                  ),
+                  floatingActionButton: FloatingActionButton(
+                    backgroundColor: primaryColor,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Create a new playlist'),
+                          content: TextField(
+                            controller: inputController,
+                            decoration: const InputDecoration(
+                              hintText: 'Name your playlist',
                             ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text(
-                                  'Cancel',
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  _firestoreService.createPlaylist(
-                                    inputController.text,
-                                    _authenticationService.currentUser.uid,
-                                  );
-                                  Navigator.pop(context);
-                                },
-                                child: const Text(
-                                  'OK',
-                                ),
-                              ),
-                            ],
+                            style: const TextStyle(color: Colors.white),
                           ),
-                        );
-                      },
-                      child: const Icon(
-                        EvaIcons.plus,
-                        color: Colors.white,
-                      ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Cancel',
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _firestoreService.createPlaylist(
+                                  inputController.text,
+                                  _authenticationService.currentUser.uid,
+                                );
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'OK',
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      EvaIcons.plus,
+                      color: Colors.white,
                     ),
                   ),
                 )
