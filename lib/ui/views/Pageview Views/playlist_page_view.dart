@@ -168,9 +168,13 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
                                           (playlistDoc as Map)['songs'];
 
                                       return ListTile(
-                                        leading: CachedNetworkImage(
-                                          imageUrl:
-                                              'http://www.scottishculture.org/themes/scottishculture/images/music_placeholder.png',
+                                        leading: Container(
+                                          height: 50,
+                                          width: 50,
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                'http://www.scottishculture.org/themes/scottishculture/images/music_placeholder.png',
+                                          ),
                                         ),
                                         subtitle: const Text(
                                           'Created by you',
