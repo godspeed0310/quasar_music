@@ -33,9 +33,6 @@ class CarouselAlbumWidget extends StatelessWidget {
             ],
           ),
         ),
-        DividerWidget(
-          margin: const EdgeInsets.only(top: 8.0, left: 20.0, right: 20.0),
-        ),
         GridView.builder(
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
