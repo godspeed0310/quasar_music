@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:quasar_music/models/song_model.dart';
+import 'package:quasar_music/ui/views/song_view.dart';
 
 class CarouselSongWidget extends StatelessWidget {
   final String? title;
@@ -80,44 +81,56 @@ class CarouselSongItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 155,
-            width: MediaQuery.of(context).size.width * 0.4,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  songModel!.artworkUrl(128),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SongView(
+              song: songModel!,
+            ),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 155,
+              width: MediaQuery.of(context).size.width * 0.4,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: CachedNetworkImageProvider(
+                    songModel!.artworkUrl(128),
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            songModel!.title!,
-            overflow: TextOverflow.fade,
-            maxLines: 2,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+            const SizedBox(
+              height: 10,
             ),
-          ),
-          Text(
-            songModel!.artistName!,
-            maxLines: 2,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.fade,
-            style: TextStyle(color: Colors.white),
-          ),
-        ],
+            Text(
+              songModel!.title!,
+              overflow: TextOverflow.fade,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              songModel!.artistName!,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.fade,
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }
