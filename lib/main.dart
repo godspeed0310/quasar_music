@@ -38,8 +38,21 @@ class MyApp extends StatelessWidget {
         primaryColor: primaryColor,
         primaryColorDark: primaryColorDark,
         scaffoldBackgroundColor: scaffoldBackgroundColor,
+        brightness: Brightness.dark,
         textTheme:
             Theme.of(context).textTheme.apply(fontFamily: 'SFProDisplay'),
+        colorScheme: const ColorScheme.dark().copyWith(
+          secondary: primaryColorDark,
+        ),
+        dialogTheme: const DialogTheme(
+          contentTextStyle: TextStyle(color: Colors.white),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ),
+        hintColor: Colors.white.withOpacity(0.5),
+        dialogBackgroundColor: Colors.black,
       ),
       home: const StartupView(),
       onGenerateRoute: generateRoute,
