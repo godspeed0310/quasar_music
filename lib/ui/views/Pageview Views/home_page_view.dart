@@ -265,6 +265,25 @@ Widget resultView(HomeModelView model, context) {
           const Spacer(),
           TextButton(
             style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(primaryColor),
+              fixedSize: MaterialStateProperty.all(
+                const Size(
+                  200,
+                  50,
+                ),
+              ),
+            ),
+            onPressed: () {},
+            child: const Text(
+              'Add to playlist',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          TextButton(
+            style: ButtonStyle(
               fixedSize: MaterialStateProperty.all(
                 const Size(
                   200,
