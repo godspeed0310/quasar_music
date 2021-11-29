@@ -172,8 +172,7 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
                                           height: 50,
                                           width: 50,
                                           child: CachedNetworkImage(
-                                            imageUrl:
-                                                'http://www.scottishculture.org/themes/scottishculture/images/music_placeholder.png',
+                                            imageUrl: document['coverUrl'],
                                           ),
                                         ),
                                         subtitle: const Text(
