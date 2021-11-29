@@ -40,34 +40,61 @@ class PlaylistPageView extends StatelessWidget {
           var songDoc = snapshot.data!.data();
           var songs = (songDoc as Map)['favourites'];
 
-          return ListView.builder(
-            itemCount: songs != null ? songs.length : 0,
-            itemBuilder: (_, int index) {
-              return ListTile(
-                leading: Container(
-                  height: 50,
-                  width: 50,
-                  child: CachedNetworkImage(
-                    imageUrl: songs[index]['artworkRawUrl'],
+          return SafeArea(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Your favourites',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                title: Text(
-                  songs[index]['title'],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                  Expanded(
+                    flex: 14,
+                    child: ListView.builder(
+                      itemCount: songs != null ? songs.length : 0,
+                      itemBuilder: (_, int index) {
+                        return ListTile(
+                          leading: Container(
+                            height: 50,
+                            width: 50,
+                            child: CachedNetworkImage(
+                              imageUrl: songs[index]['artworkRawUrl'],
+                            ),
+                          ),
+                          title: Text(
+                            songs[index]['title'],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            songs[index]['artistName'],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
-                subtitle: Text(
-                  songs[index]['artistName'],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                  ),
-                ),
-              );
-            },
+                ]),
           );
         } else {
           return SizedBox.expand(
