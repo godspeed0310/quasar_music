@@ -7,8 +7,10 @@ import 'package:quasar_music/ui/shared/app_colors.dart';
 
 class SongView extends StatefulWidget {
   final SongModel song;
+  final String? coverArt;
 
-  const SongView({Key? key, required this.song}) : super(key: key);
+  const SongView({Key? key, required this.song, this.coverArt = ''})
+      : super(key: key);
 
   @override
   State<SongView> createState() => _SongViewState();
@@ -44,7 +46,9 @@ class _SongViewState extends State<SongView> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: CachedNetworkImageProvider(
-                      widget.song.artworkUrl(1000),
+                      widget.song.artworkUrl(512) == ''
+                          ? widget.coverArt!
+                          : widget.song.artworkUrl(512),
                     ),
                     fit: BoxFit.cover,
                   ),
