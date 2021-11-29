@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:quasar_music/models/album_model.dart';
+import 'package:quasar_music/ui/views/album_view.dart';
 import 'divider_widget.dart';
 
 class CarouselAlbumWidget extends StatelessWidget {
@@ -58,42 +59,55 @@ class CarouselAlbumItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 155,
-            width: MediaQuery.of(context).size.width * 0.4,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(album!.artworkRawUrl!),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => AlbumView(
+              albumId: album!.id,
+              albumName: album!.title,
+            ),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 155,
+              width: MediaQuery.of(context).size.width * 0.4,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: CachedNetworkImageProvider(album!.artworkRawUrl!),
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            album!.title!,
-            overflow: TextOverflow.fade,
-            maxLines: 2,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+            const SizedBox(
+              height: 10,
             ),
-          ),
-          Text(
-            album!.artistName!,
-            maxLines: 2,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.fade,
-            style: const TextStyle(color: Colors.white),
-          ),
-        ],
+            Text(
+              album!.title!,
+              overflow: TextOverflow.fade,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              album!.artistName!,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.fade,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }
