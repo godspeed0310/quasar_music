@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quasar_music/locator.dart';
 import 'package:quasar_music/services/authentication_service.dart';
-import 'package:quasar_music/services/firestore_service.dart';
 import 'package:quasar_music/ui/shared/app_colors.dart';
 
 class PlaylistPageView extends StatelessWidget {
@@ -40,11 +39,10 @@ class PlaylistPageView extends StatelessWidget {
         } else if (snapshot.hasData) {
           var songDoc = snapshot.data!.data();
           var songs = (songDoc as Map)['favourites'];
-          print(songs.length);
+
           return ListView.builder(
             itemCount: songs != null ? songs.length : 0,
             itemBuilder: (_, int index) {
-              print(songs[index]['title']);
               return ListTile(
                 leading: Container(
                   height: 50,
