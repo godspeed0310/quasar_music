@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quasar_music/models/song_model.dart';
 import 'package:quasar_music/models/user_model.dart';
+import 'package:uuid/uuid.dart';
 
 class FirestoreService {
   final CollectionReference userRef =
@@ -54,6 +55,21 @@ class FirestoreService {
           ),
         },
       );
+    } on FirebaseException catch (e) {
+      return e.message;
+    }
+  }
+
+  Future createPlaylist(String name, String uid) async {
+    var playlists = userRef.doc(uid).collection('playlists');
+    var uuid = Uuid().v1();
+    Map<String, dynamic> initPlaylist = {
+      'id': uuid,
+      'name': name,
+    };
+
+    try {
+      return await playlists.doc(uuid).set(initPlaylist);
     } on FirebaseException catch (e) {
       return e.message;
     }
