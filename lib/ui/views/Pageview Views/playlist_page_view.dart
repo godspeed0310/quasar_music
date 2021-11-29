@@ -1,14 +1,25 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quasar_music/locator.dart';
 import 'package:quasar_music/services/authentication_service.dart';
+import 'package:quasar_music/services/firestore_service.dart';
 import 'package:quasar_music/ui/shared/app_colors.dart';
 
-class PlaylistPageView extends StatelessWidget {
+class PlaylistPageView extends StatefulWidget {
+  @override
+  State<PlaylistPageView> createState() => _PlaylistPageViewState();
+}
+
+class _PlaylistPageViewState extends State<PlaylistPageView> {
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
+
+  final FirestoreService _firestoreService = locator<FirestoreService>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +27,7 @@ class PlaylistPageView extends StatelessWidget {
         .collection('users')
         .doc(_authenticationService.currentUser.uid)
         .snapshots();
+    TextEditingController inputController = TextEditingController();
 
     return StreamBuilder(
       stream: favStream,
@@ -41,7 +53,8 @@ class PlaylistPageView extends StatelessWidget {
           var songs = (songDoc as Map)['favourites'];
 
           return SafeArea(
-            child: Column(
+            child: Scaffold(
+              body: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,7 +107,53 @@ class PlaylistPageView extends StatelessWidget {
                       },
                     ),
                   ),
-                ]),
+                ],
+              ),
+              floatingActionButton: FloatingActionButton(
+                backgroundColor: primaryColor,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Create a new playlist'),
+                      content: TextField(
+                        controller: inputController,
+                        decoration: const InputDecoration(
+                          hintText: 'Name your playlist',
+                        ),
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Cancel',
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            _firestoreService.createPlaylist(
+                              inputController.text,
+                              _authenticationService.currentUser.uid,
+                            );
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'OK',
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                child: const Icon(
+                  EvaIcons.plus,
+                  color: Colors.white,
+                ),
+              ),
+            ),
           );
         } else {
           return SizedBox.expand(
