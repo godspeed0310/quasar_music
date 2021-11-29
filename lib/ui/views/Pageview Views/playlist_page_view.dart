@@ -168,24 +168,10 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
                                           (playlistDoc as Map)['songs'];
 
                                       return ListTile(
-                                        leading: playlistSongs == [] ||
-                                                playlistSongs == '' ||
-                                                playlistSongs == null
-                                            ? Container(
-                                                height: 50,
-                                                width: 50,
-                                                child: CachedNetworkImage(
-                                                    imageUrl:
-                                                        'http://www.scottishculture.org/themes/scottishculture/images/music_placeholder.png'),
-                                              )
-                                            : Container(
-                                                height: 50,
-                                                width: 50,
-                                                child: CachedNetworkImage(
-                                                  imageUrl: playlistSongs[0]
-                                                      ['artworkRawUrl'],
-                                                ),
-                                              ),
+                                        leading: CachedNetworkImage(
+                                          imageUrl:
+                                              'http://www.scottishculture.org/themes/scottishculture/images/music_placeholder.png',
+                                        ),
                                         subtitle: const Text(
                                           'Created by you',
                                           style: TextStyle(
