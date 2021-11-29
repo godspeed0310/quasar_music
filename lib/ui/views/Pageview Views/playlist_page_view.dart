@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:acr_cloud_sdk/acr_cloud_sdk.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -124,8 +126,8 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
                           ),
                         ),
                         const SliverPadding(
-                          padding:
-                              EdgeInsets.only(top: 30, left: 12, right: 12),
+                          padding: EdgeInsets.only(
+                              top: 30, left: 12, right: 12, bottom: 20),
                           sliver: SliverToBoxAdapter(
                             child: Text(
                               'Your playlists',
@@ -157,19 +159,51 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
                                 var playlistDoc = snapshot.data;
 
                                 return ListView(
+                                  padding: EdgeInsets.zero,
                                   shrinkWrap: true,
-                                  children: playlistDoc!.docs.map((document) {
-                                    return ListTile(
-                                      title: Text(
-                                        document['name'],
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
+                                  children: playlistDoc!.docs.map(
+                                    (document) {
+                                      var playlistDoc = document.data();
+                                      var playlistSongs =
+                                          (playlistDoc as Map)['songs'];
+
+                                      return ListTile(
+                                        leading: playlistSongs == [] ||
+                                                playlistSongs == '' ||
+                                                playlistSongs == null
+                                            ? Container(
+                                                height: 50,
+                                                width: 50,
+                                                child: CachedNetworkImage(
+                                                    imageUrl:
+                                                        'http://www.scottishculture.org/themes/scottishculture/images/music_placeholder.png'),
+                                              )
+                                            : Container(
+                                                height: 50,
+                                                width: 50,
+                                                child: CachedNetworkImage(
+                                                  imageUrl: playlistSongs[0]
+                                                      ['artworkRawUrl'],
+                                                ),
+                                              ),
+                                        subtitle: const Text(
+                                          'Created by you',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }).toList(),
+                                        title: Text(
+                                          document['name'],
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ).toList(),
                                 );
                               } else if (snapshot.hasError) {
                                 return const Center(
