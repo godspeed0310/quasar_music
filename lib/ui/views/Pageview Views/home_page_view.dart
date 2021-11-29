@@ -14,6 +14,7 @@ class HomePageView extends StatelessWidget {
     return ViewModelBuilder<HomeModelView>.reactive(
       viewModelBuilder: () => HomeModelView(),
       onModelReady: (model) => model.initAcr(),
+      onDispose: (model) => model.disposeAcr(),
       builder: (context, model, child) {
         return model.success
             ? ResultView(model, context)
