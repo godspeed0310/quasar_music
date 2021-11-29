@@ -170,30 +170,76 @@ class _PlaylistPageViewState extends State<PlaylistPageView> {
                     ),
                   ),
                 )
-              : SizedBox.expand(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 250,
-                        width: 250,
-                        child: SvgPicture.asset(
-                          'lib/assets/images/no_music_illustration.svg',
+              : Scaffold(
+                  body: SizedBox.expand(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 250,
+                          width: 250,
+                          child: SvgPicture.asset(
+                            'lib/assets/images/no_music_illustration.svg',
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      const Text(
-                        'No playlists found on your account.\nCreate a new playlist to see it here.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
+                        const SizedBox(
+                          height: 50,
                         ),
-                      )
-                    ],
+                        const Text(
+                          'No playlists found on your account.\nCreate a new playlist to see it here.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  floatingActionButton: FloatingActionButton(
+                    backgroundColor: primaryColor,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Create a new playlist'),
+                          content: TextField(
+                            controller: inputController,
+                            decoration: const InputDecoration(
+                              hintText: 'Name your playlist',
+                            ),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Cancel',
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _firestoreService.createPlaylist(
+                                  inputController.text,
+                                  _authenticationService.currentUser.uid,
+                                );
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'OK',
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      EvaIcons.plus,
+                      color: Colors.white,
+                    ),
                   ),
                 );
         } else {
