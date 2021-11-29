@@ -2,7 +2,10 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:quasar_music/locator.dart';
 import 'package:quasar_music/models/song_model.dart';
+import 'package:quasar_music/services/authentication_service.dart';
+import 'package:quasar_music/services/firestore_service.dart';
 import 'package:quasar_music/ui/shared/app_colors.dart';
 
 class SongView extends StatefulWidget {
@@ -18,6 +21,8 @@ class SongView extends StatefulWidget {
 
 class _SongViewState extends State<SongView> {
   late bool isLiked;
+  final FirestoreService _firestoreService = locator<FirestoreService>();
+  final AuthenticationService _authService = locator<AuthenticationService>();
 
   @override
   void initState() {
@@ -117,7 +122,7 @@ class _SongViewState extends State<SongView> {
                     onPressed: () {
                       toggleLike();
                       showToast(
-                        isLiked
+                        !isLiked
                             ? 'Removed from favourites'
                             : 'Added to favourites',
                         animation: StyledToastAnimation.slideFromBottomFade,
@@ -164,5 +169,15 @@ class _SongViewState extends State<SongView> {
     setState(() {
       isLiked = !isLiked;
     });
+    !isLiked ? removeFromFavourites() : addToFavourites();
+  }
+
+  addToFavourites() async {
+    await _firestoreService.addToFav(widget.song, _authService.currentUser.uid);
+  }
+
+  removeFromFavourites() async {
+    await _firestoreService.removeFromFav(
+        widget.song, _authService.currentUser.uid);
   }
 }
