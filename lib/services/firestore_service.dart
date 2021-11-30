@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:quasar_music/models/song_model.dart';
 import 'package:quasar_music/models/user_model.dart';
 import 'package:uuid/uuid.dart';
@@ -73,5 +74,21 @@ class FirestoreService {
     } on FirebaseException catch (e) {
       return e.message;
     }
+  }
+
+  Future addToPlaylist(String playlistId, SongModel, String uid) async {
+    return await userRef
+        .doc(uid)
+        .collection('playlists')
+        .doc(playlistId)
+        .update(
+      {
+        'songs': FieldValue.arrayUnion(
+          [
+            SongModel.toMap(),
+          ],
+        )
+      },
+    );
   }
 }
