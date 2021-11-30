@@ -7,9 +7,12 @@ import 'package:quasar_music/ui/views/Pageview%20Views/home_page_view.dart';
 import 'package:quasar_music/ui/views/Pageview%20Views/playlist_page_view.dart';
 import 'package:quasar_music/viewmodels/home_view_model.dart';
 import 'package:stacked/stacked.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
+  DateTime? currentBackPressTime;
+
+  HomeView({Key? key, this.currentBackPressTime}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,49 +21,67 @@ class HomeView extends StatelessWidget {
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(),
       builder: (context, model, child) {
-        return AnnotatedRegion<SystemUiOverlayStyle>(
-          value: systemUiOverlayStyle,
-          child: Scaffold(
-            body: PageView(
-                onPageChanged: (index) {
-                  model.updateIdx(index);
+        return WillPopScope(
+          onWillPop: () async {
+            DateTime now = DateTime.now();
+            if (currentBackPressTime == null ||
+                now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+              currentBackPressTime = now;
+              showToast(
+                'Press again to exit',
+                context: context,
+                animation: StyledToastAnimation.scale,
+                curve: Curves.bounceIn,
+                reverseCurve: Curves.bounceOut,
+              );
+              return Future.value(false);
+            }
+            return Future.value(true);
+          },
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: systemUiOverlayStyle,
+            child: Scaffold(
+              body: PageView(
+                  onPageChanged: (index) {
+                    model.updateIdx(index);
+                  },
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    const HomePageView(),
+                    PlaylistPageView(),
+                    const DiscoverPageView(),
+                  ]),
+              bottomNavigationBar: BottomNavigationBar(
+                onTap: (index) {
+                  _pageController.animateToPage(
+                    index,
+                    duration: const Duration(
+                      milliseconds: 200,
+                    ),
+                    curve: Curves.easeIn,
+                  );
                 },
-                controller: _pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  const HomePageView(),
-                  PlaylistPageView(),
-                  const DiscoverPageView(),
-                ]),
-            bottomNavigationBar: BottomNavigationBar(
-              onTap: (index) {
-                _pageController.animateToPage(
-                  index,
-                  duration: const Duration(
-                    milliseconds: 200,
+                currentIndex: model.idx,
+                backgroundColor: scaffoldBackgroundColor,
+                unselectedItemColor: lightgrey,
+                selectedItemColor: primaryColorLight,
+                elevation: 10,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(EvaIcons.homeOutline),
+                    label: 'Home',
                   ),
-                  curve: Curves.easeIn,
-                );
-              },
-              currentIndex: model.idx,
-              backgroundColor: scaffoldBackgroundColor,
-              unselectedItemColor: lightgrey,
-              selectedItemColor: primaryColorLight,
-              elevation: 10,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(EvaIcons.homeOutline),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(EvaIcons.musicOutline),
-                  label: 'My Playlist',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(EvaIcons.globe),
-                  label: 'Discover',
-                ),
-              ],
+                  BottomNavigationBarItem(
+                    icon: Icon(EvaIcons.musicOutline),
+                    label: 'My Playlist',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(EvaIcons.globe),
+                    label: 'Discover',
+                  ),
+                ],
+              ),
             ),
           ),
         );
