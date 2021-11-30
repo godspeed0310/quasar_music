@@ -2,10 +2,16 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:quasar_music/locator.dart';
+import 'package:quasar_music/services/authentication_service.dart';
+import 'package:quasar_music/services/firestore_service.dart';
 import 'package:quasar_music/ui/shared/app_colors.dart';
 
 Widget ResultView(model, context) {
   var musicPlayer = AudioPlayer();
+  final FirestoreService _firestoreService = locator<FirestoreService>();
+  final AuthenticationService _authenticationService =
+      locator<AuthenticationService>();
 
   return SizedBox.expand(
     child: Container(
@@ -118,7 +124,13 @@ Widget ResultView(model, context) {
                 ),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              _firestoreService.addToPlaylist(
+                'ac8ded60-50e8-11ec-95cb-1f5396993387',
+                model.currentSong,
+                _authenticationService.currentUser.uid,
+              );
+            },
             child: const Text(
               'Add to playlist',
               style: TextStyle(color: Colors.white),

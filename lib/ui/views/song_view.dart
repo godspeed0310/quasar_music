@@ -149,7 +149,13 @@ class _SongViewState extends State<SongView> {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  _firestoreService.addToPlaylist(
+                    'ac8ded60-50e8-11ec-95cb-1f5396993387',
+                    widget.song,
+                    _authService.currentUser.uid,
+                  );
+                },
                 child: const Text(
                   'Add to playlist',
                   style: TextStyle(color: Colors.white),
